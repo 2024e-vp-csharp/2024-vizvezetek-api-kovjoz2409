@@ -18,12 +18,21 @@ namespace Vizvezetek.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MunkalapDTO>>> GetAll()
+        [HttpGet("ev/{evszam:int}")]
+        public async Task<ActionResult<IEnumerable<MunkalapDTO>>> GetAll(int? evszam = null)
         {
-            var munkalapok = await _context.munkalap
+            var munkalapokQuery = _context.munkalap.AsQueryable();
+
+
+            if (evszam is not null)
+            {
+                munkalapokQuery = munkalapokQuery.Where(m => m.javitas_datum.Year == evszam);
+            }
+
+            var munkalapok = await munkalapokQuery
                 .Include(m => m.hely)
                 .Include(m => m.szerelo)
-                .ToListAsync();
+                .ToListAsync();  
 
             var result = munkalapok.Select(munkalap => new MunkalapDTO
             {
@@ -66,17 +75,10 @@ namespace Vizvezetek.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{evszam:int?}")]
-        public async Task<ActionResult<IEnumerable<MunkalapDTO>>> Search(MunkalapKeresesDto request, int? evszam)
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<MunkalapDTO>>> Search(MunkalapKeresesDto request)
         {
-            var munkalapQuery = _context.munkalap.AsQueryable();
-
-            if (evszam is not null)
-            {
-                munkalapQuery = munkalapQuery.Where(m => m.javitas_datum.Year == evszam);
-            }
-
-            var munkalap = await munkalapQuery
+            var munkalap = await _context.munkalap
                 .Include(m => m.hely)
                 .Include(m => m.szerelo)
                 .FirstOrDefaultAsync(m => m.hely_id == request.helyszin_azonosito && m.szerelo_id == request.szerelo_azonosito);

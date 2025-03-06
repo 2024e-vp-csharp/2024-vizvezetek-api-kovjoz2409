@@ -17,10 +17,4 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:5000/api/munkalapok
-Content-Type: application/json
-{
-  "helyszin_azonosito": 221,
-  "szerelo_azonosito": 3,
-  "evszam": 1909
-}
+GET http://localhost:5000/api/munkalapok/ev/2002

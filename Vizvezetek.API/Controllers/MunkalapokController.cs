@@ -73,7 +73,7 @@ namespace Vizvezetek.API.Controllers
 
             if (evszam is not null)
             {
-                munkalapQuery = munkalapQuery.Where(m => m.javitas_datum >= new DateTime((int)evszam, 1, 1));
+                munkalapQuery = munkalapQuery.Where(m => m.javitas_datum.Year == evszam);
             }
 
             var munkalap = await munkalapQuery

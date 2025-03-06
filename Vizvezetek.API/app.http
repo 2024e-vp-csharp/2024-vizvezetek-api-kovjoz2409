@@ -1,0 +1,20 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+GET http://localhost:5000/api/munkalapok
+
+###
+
+GET http://localhost:5000/api/munkalapok/5
+
+###
+
+POST http://localhost:5000/api/munkalapok
+Content-Type: application/json
+{
+  "helyszin_azonosito": 279,
+  "szerelo_azonosito": 5
+}
+
+###
+
+GET http://localhost:5000/api/munkalapok/ev/2002

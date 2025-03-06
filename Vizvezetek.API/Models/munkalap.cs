@@ -14,9 +14,9 @@ public partial class munkalap
     [Column(TypeName = "int(11)")]
     public int id { get; set; }
 
-    public DateOnly beadas_datum { get; set; }
+    public DateTime beadas_datum { get; set; }
 
-    public DateOnly javitas_datum { get; set; }
+    public DateTime javitas_datum { get; set; }
 
     [Column(TypeName = "int(11)")]
     public int hely_id { get; set; }
